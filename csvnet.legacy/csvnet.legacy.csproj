@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <UseWindowsForms>False</UseWindowsForms>
+    <UseWPF>False</UseWPF>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <OutputType>Library</OutputType>
+    <BaseOutputPath>..\bin</BaseOutputPath>
+    <AssemblyName>csvnet.legacy</AssemblyName>
+    <RootNamespace>CSVNet.Legacy</RootNamespace>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageId>CSVNet.Legacy</PackageId>
+    <Title>CSVNet Legacy</Title>
+    <Version>2.0.0</Version>
+    <Authors>Luca Pollicino</Authors>
+    <Company>Luca Pollicino</Company>
+    <Product>CSVNet Legacy</Product>
+    <Copyright>Luca Pollicino</Copyright>
+    <PackageProjectUrl>https://github.com/reallukee/csvnet</PackageProjectUrl>
+    <PackageIcon>csvnet.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/reallukee/csvnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>CSVNet Legacy</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageOutputPath>..\bin\</PackageOutputPath>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <Optimize>False</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <Optimize>True</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <None Include="src\*" />
+  </ItemGroup>
+
+  <!--
+  <ItemGroup>
+    <Compile Remove="src\" />
+  </ItemGroup>
+  -->
+
+  <ItemGroup>
+    <None Include="..\assets\csvnet.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <Link>pkg\csvnet.png</Link>
+    </None>
+
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <Link>pkg\LICENSE</Link>
+    </None>
+
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <Link>pkg\README.md</Link>
+    </None>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(OS)'=='Windows_NT' ">
+    <DefineConstants>WIN</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)'=='UNIX' ">
+    <DefineConstants>NOTWIN</DefineConstants>
+  </PropertyGroup>
+
+</Project>
