@@ -36,17 +36,17 @@ namespace CSVNet
             set;
         }
 
-        public bool AddCell(string Value);
-        public bool AddCellAt(string Value, int Index);
-        public bool AddCellAtStart(string Value);
+        public void AddCell(string Value);
+        public void AddCellAt(string Value, int Index);
+        public void AddCellAtStart(string Value);
 
         public string RemoveCell();
         public string RemoveCellAt(int Index);
         public string RemoveCellAtStart();
 
-        public bool SetCell(string Value, int Index);
-        public bool SetFirstCell(string Value);
-        public bool SetLastCell(string Value);
+        public void SetCell(string Value, int Index);
+        public void SetFirstCell(string Value);
+        public void SetLastCell(string Value);
 
         public string GetCellValue(int Index);
         public string GetFirstCellValue();
@@ -58,12 +58,12 @@ namespace CSVNet
         public T GetFirstCellAs<T>();
         public T GetLastCellAs<T>();
 
-        public bool SwapCell(int Index1, int Index2);
-        public bool DuplicateCell(int Index, int NewIndex);
+        public void SwapCell(int Index1, int Index2);
+        public void DuplicateCell(int Index, int NewIndex);
 
-        public bool MoveCellTo(int Index, int NewIndex);
-        public bool MoveCellToStart(int Index);
-        public bool MoveCellToEnd(int Index);
+        public void MoveCellTo(int Index, int NewIndex);
+        public void MoveCellToStart(int Index);
+        public void MoveCellToEnd(int Index);
 
         public bool Contains(string Value);
         public int IndexOf(string Value);
@@ -73,8 +73,8 @@ namespace CSVNet
         public int GetCellCount();
         public int GetFirstCellIndex();
         public int GetLastCellIndex();
-        public bool CellExists(int Index);
-        public bool CellCanExists(int Index);
+        public bool CellExist(int Index);
+        public bool CellCanExist(int Index);
 
         public List<ICSVCell> ToCellsList();
         public List<T> ToList<T>();

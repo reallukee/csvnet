@@ -49,5 +49,17 @@ namespace CSVNet
 
         public bool Validate();
         public bool Verify();
+
+        public bool AutoVerification
+        {
+            get;
+            set;
+        }
+
+        public bool AutoValidation
+        {
+            get;
+            set;
+        }
     }
 }

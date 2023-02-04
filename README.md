@@ -1,5 +1,5 @@
 <p align="center">
-<img alt="Logo" src="./assets/csvnet.svg" style="width: 96px; height; 96px">
+<img alt="Logo" src="./assets/csvnet.svg" style="width: 128px; height; 128px">
 </p>
 
 <h1 align="center"><b>CSVNet</b></h1>
@@ -46,7 +46,7 @@ using CSVNet;
 CSVDocument Doc = new();
 
 // Apro il Documento CSV.
-Doc.Load("Clients.csv", ";"))
+Doc.Load("Clients.csv", ";");
 
 for (int I = 1; I < Doc.GetRowCount(); I++)
 {
@@ -61,7 +61,7 @@ for (int I = 1; I < Doc.GetRowCount(); I++)
 }
 
 // Salvo il Documento CSV.
-Doc.Save("ClientsUpdated.csv"))
+Doc.Save("ClientsUpdated.csv", ";");
 ```
 
 ## `ClientsUpdated.csv`

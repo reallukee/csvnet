@@ -33,7 +33,42 @@ namespace CSVNet.Legacy
 
         public CSVDocument()
         {
-            Content = new() { new() { "" } };
+            Content = new() { new() };
+        }
+
+        public CSVDocument(int Rows, int Cols)
+        {
+            Content = new() { new() };
+
+            Initialize(Rows, Cols);
+        }
+
+        public CSVDocument(string FileName, string Separator)
+        {
+            Content = new() { new() };
+
+            Load(FileName, Separator);
+        }
+
+        public CSVDocument(string FileName)
+        {
+            Content = new() { new() };
+
+            Load(FileName);
+        }
+
+        public CSVDocument(string[] Content, string Separator)
+        {
+            this.Content = new() { new() };
+
+            Load(Content, Separator);
+        }
+
+        public CSVDocument(string[] Content)
+        {
+            this.Content = new() { new() };
+
+            Load(Content);
         }
 
 
@@ -41,6 +76,8 @@ namespace CSVNet.Legacy
         {
             try
             {
+                Content.Clear();
+
                 for (int Y = 0; Y < Rows; Y++)
                 {
                     List<string> T = new();

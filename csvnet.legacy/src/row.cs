@@ -264,14 +264,51 @@ namespace CSVNet.Legacy
             }
         }
 
+        public void SetRow(int Index, List<string> Values)
+        {
+            try
+            {
+                if (!RowExist(Index))
+                {
+                    throw new RowDosentExistException();
+                }
+
+                if (Values.Count == GetRowCount())
+                {
+                    for (int I = 0; I < GetColCount(); I++)
+                    {
+                        Content[Index][I] = Values[I];
+                    }
+                }
+                else
+                {
+                    throw new ColDosentExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public void SetFirstRow(string Value)
         {
             SetRow(0, Value);
         }
 
+        public void SetFirstRow(List<string> Values)
+        {
+            SetRow(0, Values);
+        }
+
         public void SetLastRow(string Value)
         {
             SetRow(GetLastRowIndex(), Value);
+        }
+
+        public void SetLastRow(List<string> Values)
+        {
+            SetRow(GetLastRowIndex(), Values);
         }
 
 

@@ -78,44 +78,60 @@ namespace CSVNet
         }
 
 
-        public bool AddCell(string Value)
+        public void AddCell(string Value)
         {
             Cells.Add(new CSVCell(Value, Index, GetCellCount()));
-            return true;
         }
 
-        public bool AddCellAt(string Value, int Index)
+        public void AddCellAt(string Value, int Index)
         {
             try
             {
-                Cells.Insert(Index, new CSVCell(Value, this.Index, Index));
+                if (CellCanExist(Index))
+                {
+                    Cells.Insert(Index, new CSVCell(Value, this.Index, Index));
+                }
+                else
+                {
+                    throw new CellCantExistException();
+                }
             }
             catch
             {
-                return false;
+                throw;
             }
-
-            return true;
         }
 
-        public bool AddCellAtStart(string Value)
+        public void AddCellAtStart(string Value)
         {
-            return AddCellAt(Value, 0);
+            AddCellAt(Value, 0);
         }
 
 
         public string RemoveCell()
         {
-            string T = GetLastCellValue();
-            Cells.RemoveAt(Cells.Count() - 1);
-            return T;
+            return RemoveCellAt(GetLastCellIndex());
         }
 
         public string RemoveCellAt(int Index)
         {
-            string T = GetCellValue(Index);
-            Cells.RemoveAt(Index);
-            return T;
+            try
+            {
+                if (CellExist(GetLastCellIndex()))
+                {
+                    string T = GetCellValue(Index);
+                    Cells.RemoveAt(Index);
+                    return T;
+                }
+                else
+                {
+                    throw new CellDosentExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public string RemoveCellAtStart()
@@ -124,28 +140,33 @@ namespace CSVNet
         }
 
 
-        public bool SetCell(string Value, int Index)
+        public void SetCell(string Value, int Index)
         {
             try
             {
-                Cells[Index].Set(Value);
+                if (CellExist(Index))
+                {
+                    Cells[Index].Set(Value);
+                }
+                else
+                {
+                    throw new CellDosentExistException();
+                }
             }
             catch
             {
-                return false;
+                throw;
             }
-
-            return true;
         }
 
-        public bool SetFirstCell(string Value)
+        public void SetFirstCell(string Value)
         {
-            return SetCell(Value, 0);
+            SetCell(Value, 0);
         }
 
-        public bool SetLastCell(string Value)
+        public void SetLastCell(string Value)
         {
-            return SetCell(Value, Cells.Count() - 1);
+            SetCell(Value, Cells.Count() - 1);
         }
 
 
@@ -153,11 +174,18 @@ namespace CSVNet
         {
             try
             {
-                return Cells[Index].Get();
+                if (CellExist(Index))
+                {
+                    return Cells[Index].Get();
+                }
+                else
+                {
+                    throw new CellDosentExistException();
+                }
             }
             catch
             {
-                return "";
+                throw;
             }
         }
 
@@ -202,73 +230,88 @@ namespace CSVNet
         }
 
 
-        public bool SwapCell(int Index1, int Index2)
+        public void SwapCell(int Index1, int Index2)
         {
             try
             {
-                string T = GetCellValue(Index1);
-                SetCell(GetCellValue(Index2), Index1);
-                SetCell(T, Index2);
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool DuplicateCell(int Index, int NewIndex)
-        {
-            try
-            {
-                AddCellAt(GetCellValue(Index), NewIndex);
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-
-        public bool MoveCellTo(int Index, int NewIndex)
-        {
-            try
-            {
-                if (Index < NewIndex)
+                if (CellExist(Index1) && CellExist(Index2))
                 {
-                    for (int I = Index; I < NewIndex; I++)
-                    {
-                        SwapCell(I, I + 1);
-                    }
+                    string T = GetCellValue(Index1);
+                    SetCell(GetCellValue(Index2), Index1);
+                    SetCell(T, Index2);
                 }
-
-                if (Index > NewIndex)
+                else
                 {
-                    for (int I = Index; I > NewIndex; I--)
-                    {
-                        SwapCell(I, I - 1);
-                    }
+                    throw new CellDosentExistException();
                 }
             }
             catch
             {
-                return false;
+                throw;
             }
-
-            return true;
         }
 
-        public bool MoveCellToStart(int Index)
+        public void DuplicateCell(int Index, int NewIndex)
         {
-            return MoveCellTo(Index, 0);
+            try
+            {
+                if (CellExist(Index))
+                {
+                    AddCellAt(GetCellValue(Index), NewIndex);
+                }
+                else
+                {
+                    throw new CellDosentExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public bool MoveCellToEnd(int Index)
+
+        public void MoveCellTo(int Index, int NewIndex)
         {
-            return MoveCellTo(Index, GetLastCellIndex());
+            try
+            {
+                if (CellExist(Index) && CellExist(NewIndex))
+                {
+                    if (Index < NewIndex)
+                    {
+                        for (int I = Index; I < NewIndex; I++)
+                        {
+                            SwapCell(I, I + 1);
+                        }
+                    }
+
+                    if (Index > NewIndex)
+                    {
+                        for (int I = Index; I > NewIndex; I--)
+                        {
+                            SwapCell(I, I - 1);
+                        }
+                    }
+                }
+                else
+                {
+                    throw new CellDosentExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void MoveCellToStart(int Index)
+        {
+            MoveCellTo(Index, 0);
+        }
+
+        public void MoveCellToEnd(int Index)
+        {
+            MoveCellTo(Index, GetLastCellIndex());
         }
 
 
@@ -286,7 +329,7 @@ namespace CSVNet
             }
             catch
             {
-                return false;
+                throw;
             }
 
             return false;
@@ -311,7 +354,7 @@ namespace CSVNet
             }
             catch
             {
-                return -1;
+                throw;
             }
 
             return -1;
@@ -331,7 +374,7 @@ namespace CSVNet
             }
             catch
             {
-                return -1;
+                throw;
             }
 
             return -1;
@@ -353,12 +396,12 @@ namespace CSVNet
             return GetCellCount() - 1;
         }
 
-        public bool CellExists(int Index)
+        public bool CellExist(int Index)
         {
             return Index >= 0 && Index <= GetLastCellIndex();
         }
 
-        public bool CellCanExists(int Index)
+        public bool CellCanExist(int Index)
         {
             return Index >= 0 && Index <= GetCellCount();
         }
@@ -366,14 +409,21 @@ namespace CSVNet
 
         public List<ICSVCell> ToCellsList()
         {
-            List<ICSVCell> T = new();
-
-            for (int I = 0; I < GetCellCount(); I++)
+            try
             {
-                T.Add(new CSVCell(GetCellValue(I), I, 0));
-            }
+                List<ICSVCell> T = new();
 
-            return T;
+                for (int I = 0; I < GetCellCount(); I++)
+                {
+                    T.Add(new CSVCell(GetCellValue(I), I, 0));
+                }
+
+                return T;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public List<T> ToList<T>()
