@@ -12,6 +12,8 @@
 //  GitHub:      https://github.com/reallukee/csvnet
 //  Autore:      Luca Pollicino
 //  Descrizione: Exception
+//               Permette la Gestione delle Eccezioni
+//               di una Tabella CSV.
 //  Versione:    1.0.0
 //
 //  Leggere README.md per Maggiori Informazioni.
@@ -58,6 +60,30 @@ namespace CSVNet.Legacy
         }
 
         public CantValidateTableException(string Message) : base(Message)
+        {
+            Message_ = Message;
+        }
+
+        private string Message_;
+
+        public override string Message
+        {
+            get
+            {
+                return Message_;
+            }
+        }
+    }
+
+
+    public class RowIsInvalidException : Exception
+    {
+        public RowIsInvalidException() : base()
+        {
+            Message_ = "Row Is Invalid!";
+        }
+
+        public RowIsInvalidException(string Message) : base(Message)
         {
             Message_ = Message;
         }
@@ -122,6 +148,30 @@ namespace CSVNet.Legacy
     }
 
 
+    public class ColIsInvalidException : Exception
+    {
+        public ColIsInvalidException() : base()
+        {
+            Message_ = "Col Is Invalid!";
+        }
+
+        public ColIsInvalidException(string Message) : base(Message)
+        {
+            Message_ = Message;
+        }
+
+        private string Message_;
+
+        public override string Message
+        {
+            get
+            {
+                return Message_;
+            }
+        }
+    }
+
+
     public class ColCantExistException : Exception
     {
         public ColCantExistException() : base()
@@ -154,6 +204,30 @@ namespace CSVNet.Legacy
         }
 
         public ColDosentExistException(string Message) : base(Message)
+        {
+            Message_ = Message;
+        }
+
+        private string Message_;
+
+        public override string Message
+        {
+            get
+            {
+                return Message_;
+            }
+        }
+    }
+
+
+    public class CellIsInvalidException : Exception
+    {
+        public CellIsInvalidException() : base()
+        {
+            Message_ = "Cell Is Invalid!";
+        }
+
+        public CellIsInvalidException(string Message) : base(Message)
         {
             Message_ = Message;
         }

@@ -46,5 +46,10 @@ namespace CSVNet
 
         public string Get();
         public T GetAs<T>();
+
+        public string ToString();
+
+        public bool Equals(ICSVCell Obj);
+        public int GetHashCode();
     }
 }

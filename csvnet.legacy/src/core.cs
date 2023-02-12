@@ -11,7 +11,9 @@
 //
 //  GitHub:      https://github.com/reallukee/csvnet
 //  Autore:      Luca Pollicino
-//  Descrizione: CSVDocument
+//  Descrizione: Core
+//               Permette la Gestione delle Eccezioni
+//               di una Tabella CSV.
 //  Versione:    1.0.0
 //
 //  Leggere README.md per Maggiori Informazioni.
@@ -72,7 +74,7 @@ namespace CSVNet.Legacy
         }
 
 
-        public bool Initialize(int Rows, int Cols)
+        public void Initialize(int Rows, int Cols)
         {
             try
             {
@@ -92,13 +94,11 @@ namespace CSVNet.Legacy
             }
             catch
             {
-                return false;
+                throw;
             }
-
-            return true;
         }
 
-        public bool Unload()
+        public void Unload()
         {
             try
             {
@@ -106,10 +106,8 @@ namespace CSVNet.Legacy
             }
             catch
             {
-                return false;
+                throw;
             }
-
-            return true;
         }
 
 
@@ -160,7 +158,7 @@ namespace CSVNet.Legacy
 
         public void Load(string FileName)
         {
-            Load(FileName, ";");
+            Load(FileName, Separator);
         }
 
         public void Load(string[] Content, string Separator)
@@ -169,7 +167,7 @@ namespace CSVNet.Legacy
             {
                 this.Content.Clear();
 
-                foreach(string FileLine in Content)
+                foreach (string FileLine in Content)
                 {
                     List<string> T = new();
 
@@ -205,7 +203,7 @@ namespace CSVNet.Legacy
 
         public void Load(string[] Content)
         {
-            Load(Content, ";");
+            Load(Content, Separator);
         }
 
 
@@ -229,13 +227,13 @@ namespace CSVNet.Legacy
                     }
                 }
 
-                string[] FileText = new string[GetRowCount()];
+                string[] FileText = new string[RowCount];
 
-                for (int Y = 0; Y < GetRowCount(); Y++)
+                for (int Y = 0; Y < RowCount; Y++)
                 {
                     string T = "";
 
-                    for (int X = 0; X < GetColCount(); X++)
+                    for (int X = 0; X < ColCount; X++)
                     {
                         T += Content[Y][X] + Separator;
                     }
@@ -253,7 +251,7 @@ namespace CSVNet.Legacy
 
         public void Save(string FileName)
         {
-            Save(FileName, ";");
+            Save(FileName, Separator);
         }
 
         public void Save(ref string[] Content, string Separator)
@@ -276,13 +274,13 @@ namespace CSVNet.Legacy
                     }
                 }
 
-                Content = new string[GetRowCount()];
+                Content = new string[RowCount];
 
-                for (int Y = 0; Y < GetRowCount(); Y++)
+                for (int Y = 0; Y < RowCount; Y++)
                 {
                     string T = "";
 
-                    for (int X = 0; X < GetColCount(); X++)
+                    for (int X = 0; X < ColCount; X++)
                     {
                         T += this.Content[Y][X] + Separator;
                     }
@@ -298,7 +296,7 @@ namespace CSVNet.Legacy
 
         public void Save(ref string[] Content)
         {
-            Save(ref Content, ";");
+            Save(ref Content, Separator);
         }
 
 
@@ -308,7 +306,7 @@ namespace CSVNet.Legacy
             {
                 int T = 0;
 
-                for (int I = 0; I < GetRowCount(); I++)
+                for (int I = 0; I < RowCount; I++)
                 {
                     if (Content[I].Count() > T)
                     {
@@ -316,7 +314,7 @@ namespace CSVNet.Legacy
                     }
                 }
 
-                for (int I = 0; I < GetRowCount(); I++)
+                for (int I = 0; I < RowCount; I++)
                 {
                     if (Content[I].Count() != T)
                     {
@@ -338,7 +336,7 @@ namespace CSVNet.Legacy
             {
                 int T = 0;
 
-                for (int I = 0; I < GetRowCount(); I++)
+                for (int I = 0; I < RowCount; I++)
                 {
                     if (Content[I].Count() > T)
                     {
@@ -346,7 +344,7 @@ namespace CSVNet.Legacy
                     }
                 }
 
-                for (int I = 0; I < GetRowCount(); I++)
+                for (int I = 0; I < RowCount; I++)
                 {
                     while (Content[I].Count != T)
                     {
@@ -381,6 +379,51 @@ namespace CSVNet.Legacy
         {
             get => AutoValidation_;
             set => AutoValidation_ = value;
+        }
+
+
+        private static string Separator_ = ";";
+
+        public string Separator
+        {
+            get => Separator_;
+            set => Separator_ = value;
+        }
+
+
+        public string ToString(string Separator)
+        {
+            string Content = "";
+
+            for (int Y = 0; Y < RowCount; Y++)
+            {
+                string T = "";
+
+                for (int X = 0; X < ColCount; X++)
+                {
+                    T += this.Content[Y][X] + Separator;
+                }
+
+                Content += T.Substring(0, T.Length - 1) + "\n";
+            }
+
+            return Content;
+        }
+
+        public override string ToString()
+        {
+            return ToString(Separator);
+        }
+
+
+        public bool Equals(CSVDocument Obj)
+        {
+            return ToString() == Obj.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

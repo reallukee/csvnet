@@ -11,12 +11,13 @@
 </p>
 
 <p align="center">
-📊 Una Libreria .NET per Scrivere, Leggere e Modificare File in Formato CSV.
+📊 Una Libreria .NET per Scrivere, Leggere e Modificare File in Formato CSV
 </p>
 
 # Indice
 
 - [Introduzione](#introduzione)
+- [Organizzazione](#organizzazione)
 - [Esempi](#esempi)
 - [Download](#download)
 - [Documentazione](./DOCS.md)
@@ -48,7 +49,7 @@ CSVDocument Doc = new();
 // Apro il Documento CSV.
 Doc.Load("Clients.csv", ";");
 
-for (int I = 1; I < Doc.GetRowCount(); I++)
+for (int I = 1; I < Doc.RowCount(); I++)
 {
     // Ottengo la Cella.
     string Name = Doc.GetCell(I, 0);
@@ -73,6 +74,17 @@ Mario;Rossi;Torino
 Maria;Verde;Milano
 Franco;Blu;Firenze
 ```
+
+
+
+# Organizzazione
+
+- [`assets`](./assets/) Contenuti Multimediali
+- [`csvnet`](./csvnet/) Libreria
+- [`csvnet.legacy`](./csvnet.legacy/) Libreria Legacy
+- [`csvnet.test`](./csvnet.test/) Test Libreria
+- [`csvnet.legacy.test`](./csvnet.legacy.test/) Test Libreria Legacy
+- [`scripts`](./scripts/) Script
 
 
 

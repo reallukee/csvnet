@@ -434,7 +434,30 @@ namespace CSVNet
 
         public override string ToString()
         {
-            return "CSVCol";
+            string B = "";
+
+            for (int I = 0; I < Cells.Count(); I++)
+            {
+                B += GetCell(I) + ";";
+            }
+
+            return B;
+        }
+
+        public string ToString(string Separator)
+        {
+            return ToString(Separator);
+        }
+
+
+        public bool Equals(ICSVCol Obj)
+        {
+            return ToString() == Obj.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

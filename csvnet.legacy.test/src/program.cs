@@ -72,7 +72,7 @@ namespace CSVNet.Test
         static void TestAddRow(string InitValue)
         {
             Doc.AddRow(InitValue);
-            ShowRow(Doc.GetLastRowIndex());
+            ShowRow(Doc.LastRowIndex);
         }
 
         static void TestAddRowAt(int Index, string InitValue)
@@ -85,7 +85,7 @@ namespace CSVNet.Test
         static void TestRemoveRow()
         {
             Doc.RemoveRow();
-            ShowRow(Doc.GetLastRowIndex());
+            ShowRow(Doc.LastRowIndex);
         }
 
         static void TestRemoveRowAt(int Index)
@@ -131,7 +131,7 @@ namespace CSVNet.Test
         static void TestAddCol(string InitValue)
         {
             Doc.AddCol(InitValue);
-            ShowCol(Doc.GetLastColIndex());
+            ShowCol(Doc.LastColIndex);
         }
 
         static void TestAddColAt(int Index, string InitValue)
@@ -144,7 +144,7 @@ namespace CSVNet.Test
         static void TestRemoveCol()
         {
             Doc.RemoveCol();
-            ShowCol(Doc.GetLastColIndex());
+            ShowCol(Doc.LastColIndex);
         }
 
         static void TestRemoveColAt(int Index)

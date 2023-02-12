@@ -1,7 +1,5 @@
-//
-//  CSVNet Legacy
-//
-//  Classica CSVNet Riscritta in C#.
+﻿//
+//  CSVNet
 //
 //  Una Libreria .NET per Scrivere, Leggere
 //  e Modificare File in Formato CSV.
@@ -14,7 +12,7 @@
 //  Descrizione: Cell
 //               Permette la Gestione delle Celle
 //               di una Tabella CSV.
-//  Versione:    1.0.0
+//  Versione:    2.0.0
 //
 //  Leggere README.md per Maggiori Informazioni.
 //
@@ -26,7 +24,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
-namespace CSVNet.Legacy
+namespace CSVNet
 {
     public partial class CSVDocument
     {
@@ -55,7 +53,7 @@ namespace CSVNet.Legacy
             {
                 if (CellExist(Row, Col))
                 {
-                    return (T)Convert.ChangeType(Content[Row][Col], typeof(T));;
+                    return (T)Convert.ChangeType(Content[Row][Col], typeof(T)); ;
                 }
                 else
                 {

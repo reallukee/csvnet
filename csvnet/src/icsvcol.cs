@@ -78,5 +78,11 @@ namespace CSVNet
 
         public List<ICSVCell> ToCellsList();
         public List<T> ToList<T>();
+
+        public string ToString(string Separator);
+        public string ToString();
+
+        public bool Equals(ICSVCol Obj);
+        public int GetHashCode();
     }
 }

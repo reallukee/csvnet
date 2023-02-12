@@ -434,7 +434,30 @@ namespace CSVNet
 
         public override string ToString()
         {
-            return "CSVRow";
+            string B = "";
+
+            for (int I = 0; I < Cells.Count(); I++)
+            {
+                B += GetCell(I) + ";";
+            }
+
+            return B;
+        }
+
+        public string ToString(string Separator)
+        {
+            return ToString(Separator);
+        }
+
+
+        public bool Equals(ICSVRow Obj)
+        {
+            return ToString() == Obj.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -116,5 +116,16 @@ namespace CSVNet
         {
             return Value;
         }
+
+
+        public bool Equals(ICSVCell Obj)
+        {
+            return ToString() == Obj.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
