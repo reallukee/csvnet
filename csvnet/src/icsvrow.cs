@@ -70,9 +70,26 @@ namespace CSVNet
         public int IndexOf(string Value, int Start);
         public int LastIndexOf(string Value);
 
-        public int GetCellCount();
-        public int GetFirstCellIndex();
-        public int GetLastCellIndex();
+        public int CellCount
+        {
+            get;
+        }
+
+        public bool HasCell
+        {
+            get;
+        }
+
+        public int FirstCellIndex
+        {
+            get;
+        }
+
+        public int LastCellIndex
+        {
+            get;
+        }
+
         public bool CellExist(int Index);
         public bool CellCanExist(int Index);
 

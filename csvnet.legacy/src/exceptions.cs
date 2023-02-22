@@ -11,7 +11,7 @@
 //
 //  GitHub:      https://github.com/reallukee/csvnet
 //  Autore:      Luca Pollicino
-//  Descrizione: Exception
+//  Descrizione: Exceptions
 //               Permette la Gestione delle Eccezioni
 //               di una Tabella CSV.
 //  Versione:    1.0.0

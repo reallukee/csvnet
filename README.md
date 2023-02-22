@@ -12,6 +12,8 @@
 
 <p align="center">
 📊 Una Libreria .NET per Scrivere, Leggere e Modificare File in Formato CSV
+<br />
+Open Source, Multipiattaforma e Semplice
 </p>
 
 # Indice
@@ -47,9 +49,9 @@ using CSVNet;
 CSVDocument Doc = new();
 
 // Apro il Documento CSV.
-Doc.Load("Clients.csv", ";");
+Doc.Load("Clients.csv", ';');
 
-for (int I = 1; I < Doc.RowCount(); I++)
+for (int I = 1; I < Doc.RowCount; I++)
 {
     // Ottengo la Cella.
     string Name = Doc.GetCell(I, 0);
@@ -62,7 +64,7 @@ for (int I = 1; I < Doc.RowCount(); I++)
 }
 
 // Salvo il Documento CSV.
-Doc.Save("ClientsUpdated.csv", ";");
+Doc.Save("ClientsUpdated.csv", ';');
 ```
 
 ## `ClientsUpdated.csv`
@@ -110,7 +112,7 @@ Franco;Blu;Firenze
 CSVDocument Doc = new();
 
 // Carico da file.
-Doc.Load("Clients.csv", ";"))
+Doc.Load("Clients.csv", ';'))
 
 string[] Clients = {
     "Nome;Cognome;Città",
@@ -121,7 +123,7 @@ string[] Clients = {
 };
 
 // Carico da array.
-Doc.Load(Clients, ";"))
+Doc.Load(Clients, ';'))
 
 // ...
 ```
@@ -137,12 +139,12 @@ Doc.Load(Clients, ";"))
 CSVDocument Doc = new();
 
 // Salvo su file.
-Doc.Save("Clients.csv", ";"))
+Doc.Save("Clients.csv", ';'))
 
 string[] Clients;
 
 // Salvo su array.
-Doc.Save(Clients, ";"))
+Doc.Save(Clients, ';'))
 
 // ...
 ```
@@ -394,4 +396,4 @@ L'ultima versione di CSVNet può essere scaricata da GitHub.
 
 # Licenza
 
-Questo progetto è sotto licenza [MIT](./LICENSE).
+Questo progetto è sotto licenza [MIT](./LICENSE)

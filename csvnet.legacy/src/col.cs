@@ -40,6 +40,8 @@ namespace CSVNet.Legacy
                     {
                         Content[I].Add(InitValue);
                     }
+
+                    OnColAdded(new(LastColIndex, GetCol(LastColIndex)));
                 }
                 else
                 {
@@ -67,6 +69,8 @@ namespace CSVNet.Legacy
                     {
                         Content[I].Add(InitValues[I]);
                     }
+
+                    OnColAdded(new(LastColIndex, InitValues));
                 }
                 else
                 {
@@ -94,6 +98,8 @@ namespace CSVNet.Legacy
                     {
                         Content[I].Insert(Index, InitValue);
                     }
+
+                    OnColAdded(new(Index, GetCol(Index)));
                 }
                 else
                 {
@@ -121,6 +127,8 @@ namespace CSVNet.Legacy
                     {
                         Content[I].Insert(Index, InitValues[I]);
                     }
+
+                    OnColAdded(new(Index, InitValues));
                 }
                 else
                 {
@@ -172,6 +180,8 @@ namespace CSVNet.Legacy
                     throw new ColDosentExistException();
                 }
 
+                OnColRemoved(new(LastColIndex + 1, T));
+
                 return T;
             }
             catch
@@ -197,6 +207,8 @@ namespace CSVNet.Legacy
                 {
                     throw new ColDosentExistException();
                 }
+
+                OnColRemoved(new(Index, T));
 
                 return T;
             }
@@ -317,6 +329,8 @@ namespace CSVNet.Legacy
                     {
                         Content[I][Index] = Value;
                     }
+
+                    OnColChanged(new(Index, GetCol(Index)));
                 }
                 else
                 {
@@ -344,6 +358,8 @@ namespace CSVNet.Legacy
                     {
                         Content[I][Index] = Values[I];
                     }
+
+                    OnColChanged(new(Index, Values));
                 }
                 else
                 {
@@ -583,12 +599,12 @@ namespace CSVNet.Legacy
 
         public bool ColExist(int Col)
         {
-            return Col >= 0 && Col < Content[0].Count();
+            return Col >= 0 && Col < Content[0].Count() && Col <= MaxColCount;
         }
 
         public bool ColCanExist(int Col)
         {
-            return Col >= 0 && Col <= Content[0].Count();
+            return Col >= 0 && Col <= Content[0].Count() && Col <= MaxColCount;
         }
     }
 }

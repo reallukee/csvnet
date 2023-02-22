@@ -54,7 +54,7 @@ namespace CSVNet.Test
 
         static void TestGetCellCount()
         {
-            Console.WriteLine(Doc.GetCellCount());
+            Console.WriteLine(Doc.CellCount);
         }
 
 

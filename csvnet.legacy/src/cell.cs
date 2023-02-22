@@ -81,6 +81,8 @@ namespace CSVNet.Legacy
                 {
                     throw new CellDosentExistException();
                 }
+
+                OnCellChanged(new(Row, Col, Value));
             }
             catch
             {
@@ -113,9 +115,9 @@ namespace CSVNet.Legacy
         }
 
 
-        public int GetCellCount()
+        public int CellCount
         {
-            return RowCount * ColCount;
+            get => RowCount * ColCount;
         }
 
 

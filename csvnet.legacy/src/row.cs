@@ -44,6 +44,8 @@ namespace CSVNet.Legacy
                     }
 
                     Content.Add(T);
+
+                    OnRowAdded(new(LastRowIndex, T));
                 }
                 else
                 {
@@ -75,6 +77,8 @@ namespace CSVNet.Legacy
                     }
 
                     Content.Add(T);
+
+                    OnRowAdded(new(LastRowIndex, InitValues));
                 }
                 else
                 {
@@ -106,6 +110,8 @@ namespace CSVNet.Legacy
                     }
 
                     Content.Insert(Index, T);
+
+                    OnRowAdded(new(Index, T));
                 }
                 else
                 {
@@ -137,6 +143,8 @@ namespace CSVNet.Legacy
                     }
 
                     Content.Insert(Index, T);
+
+                    OnRowAdded(new(Index, InitValues));
                 }
                 else
                 {
@@ -185,6 +193,8 @@ namespace CSVNet.Legacy
                     throw new RowDosentExistException();
                 }
 
+                OnRowRemoved(new(LastRowIndex + 1, T));
+
                 return T;
             }
             catch
@@ -207,6 +217,8 @@ namespace CSVNet.Legacy
                 {
                     throw new RowDosentExistException();
                 }
+
+                OnRowRemoved(new(Index, T));
 
                 return T;
             }
@@ -327,6 +339,8 @@ namespace CSVNet.Legacy
                     {
                         Content[Index][I] = Value;
                     }
+
+                    OnRowChanged(new(Index, GetRow(Index)));
                 }
                 else
                 {
@@ -354,6 +368,8 @@ namespace CSVNet.Legacy
                     {
                         Content[Index][I] = Values[I];
                     }
+
+                    OnRowChanged(new(Index, Values));
                 }
                 else
                 {
@@ -593,12 +609,12 @@ namespace CSVNet.Legacy
 
         public bool RowExist(int Row)
         {
-            return Row >= 0 && Row < Content.Count();
+            return Row >= 0 && Row < Content.Count() && Row <= MaxRowCount;
         }
 
         public bool RowCanExist(int Row)
         {
-            return Row >= 0 && Row <= Content.Count();
+            return Row >= 0 && Row <= Content.Count() && Row <= MaxRowCount;
         }
     }
 }

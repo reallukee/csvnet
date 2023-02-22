@@ -80,7 +80,7 @@ namespace CSVNet
 
         public void AddCell(string Value)
         {
-            Cells.Add(new CSVCell(Value, GetCellCount(), Index));
+            Cells.Add(new CSVCell(Value, CellCount, Index));
         }
 
         public void AddCellAt(string Value, int Index)
@@ -110,14 +110,14 @@ namespace CSVNet
 
         public string RemoveCell()
         {
-            return RemoveCellAt(GetLastCellIndex());
+            return RemoveCellAt(CellCount);
         }
 
         public string RemoveCellAt(int Index)
         {
             try
             {
-                if (CellExist(GetLastCellIndex()))
+                if (CellExist(CellCount))
                 {
                     string T = GetCellValue(Index);
                     Cells.RemoveAt(Index);
@@ -311,7 +311,7 @@ namespace CSVNet
 
         public void MoveCellToEnd(int Index)
         {
-            MoveCellTo(Index, GetLastCellIndex());
+            MoveCellTo(Index, CellCount);
         }
 
 
@@ -344,7 +344,7 @@ namespace CSVNet
         {
             try
             {
-                for (int I = Start; I < GetCellCount(); I++)
+                for (int I = Start; I < CellCount; I++)
                 {
                     if (Cells[I].Get().Contains(Value))
                     {
@@ -364,7 +364,7 @@ namespace CSVNet
         {
             try
             {
-                for (int I = GetLastCellIndex(); I >= 0; I--)
+                for (int I = CellCount; I >= 0; I--)
                 {
                     if (Cells[I].Get().Contains(Value))
                     {
@@ -381,29 +381,34 @@ namespace CSVNet
         }
 
 
-        public int GetCellCount()
+        public int CellCount
         {
-            return Cells.Count();
+            get => Cells.Count();
         }
 
-        public int GetFirstCellIndex()
+        public bool HasCell
         {
-            return 0;
+            get => !(CellCount == 0);
         }
 
-        public int GetLastCellIndex()
+        public int FirstCellIndex
         {
-            return GetCellCount() - 1;
+            get => 0;
+        }
+
+        public int LastCellIndex
+        {
+            get => CellCount - 1;
         }
 
         public bool CellExist(int Index)
         {
-            return Index >= 0 && Index <= GetLastCellIndex();
+            return Index >= 0 && Index <= LastCellIndex;
         }
 
         public bool CellCanExist(int Index)
         {
-            return Index >= 0 && Index <= GetCellCount();
+            return Index >= 0 && Index <= CellCount;
         }
 
 
@@ -413,7 +418,7 @@ namespace CSVNet
             {
                 List<ICSVCell> T = new();
 
-                for (int I = 0; I < GetCellCount(); I++)
+                for (int I = 0; I < CellCount; I++)
                 {
                     T.Add(new CSVCell(GetCellValue(I), I, 0));
                 }
