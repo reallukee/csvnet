@@ -43,7 +43,7 @@ namespace CSVNet
             Initialize(Rows, Cols);
         }
 
-        public CSVDocument(string FileName, string Separator)
+        public CSVDocument(string FileName, char Separator)
         {
             Content = new() { new() };
 
@@ -57,7 +57,7 @@ namespace CSVNet
             Load(FileName);
         }
 
-        public CSVDocument(string[] Content, string Separator)
+        public CSVDocument(string[] Content, char Separator)
         {
             this.Content = new() { new() };
 
@@ -109,7 +109,7 @@ namespace CSVNet
         }
 
 
-        public void Load(string FileName, string Separator)
+        public void Load(string FileName, char Separator)
         {
             try
             {
@@ -119,17 +119,41 @@ namespace CSVNet
 
                 foreach (string FileLine in FileText)
                 {
-                    if (FileLine.Contains(Separator))
-                    {
-                        List<string> T = new();
+                    List<string> T = new();
+                    bool Protected = false;
+                    string Field = "";
 
-                        foreach (string FileWord in FileLine.Split(Separator))
+                    for (int I = 0; I < FileLine.Length; I++)
+                    {
+                        if (FileLine[I] == Breaker)
                         {
-                            T.Add(FileWord);
+                            Protected = !Protected;
                         }
 
-                        Content.Add(T);
+                        if (FileLine[I] == Separator)
+                        {
+                            if (Protected)
+                            {
+                                Field += FileLine[I];
+                            }
+                            else
+                            {
+                                T.Add(Field);
+                                Field = "";
+                            }
+                        }
+                        else if (I == FileLine.Length - 1)
+                        {
+                            Field += FileLine[I];
+                            T.Add(Field);
+                        }
+                        else
+                        {
+                            Field += FileLine[I];
+                        }
                     }
+
+                    this.Content.Add(T);
                 }
 
                 if (AutoVerification)
@@ -159,7 +183,7 @@ namespace CSVNet
             Load(FileName, Separator);
         }
 
-        public void Load(string[] Content, string Separator)
+        public void Load(string[] Content, char Separator)
         {
             try
             {
@@ -168,10 +192,37 @@ namespace CSVNet
                 foreach (string FileLine in Content)
                 {
                     List<string> T = new();
+                    bool Protected = false;
+                    string Field = "";
 
-                    foreach (string FileWord in FileLine.Split(Separator))
+                    for (int I = 0; I < FileLine.Length; I++)
                     {
-                        T.Add(FileWord);
+                        if (FileLine[I] == Breaker)
+                        {
+                            Protected = !Protected;
+                        }
+
+                        if (FileLine[I] == Separator)
+                        {
+                            if (Protected)
+                            {
+                                Field += FileLine[I];
+                            }
+                            else
+                            {
+                                T.Add(Field);
+                                Field = "";
+                            }
+                        }
+                        else if (I == FileLine.Length - 1)
+                        {
+                            Field += FileLine[I];
+                            T.Add(Field);
+                        }
+                        else
+                        {
+                            Field += FileLine[I];
+                        }
                     }
 
                     this.Content.Add(T);
@@ -205,7 +256,7 @@ namespace CSVNet
         }
 
 
-        public void Save(string FileName, string Separator)
+        public void Save(string FileName, char Separator)
         {
             try
             {
@@ -252,7 +303,7 @@ namespace CSVNet
             Save(FileName, Separator);
         }
 
-        public void Save(ref string[] Content, string Separator)
+        public void Save(ref string[] Content, char Separator)
         {
             try
             {
@@ -380,16 +431,35 @@ namespace CSVNet
         }
 
 
-        private static string Separator_ = ";";
+        private static char Separator_ = ';';
 
-        public string Separator
+        public char Separator
         {
             get => Separator_;
             set => Separator_ = value;
         }
 
 
-        public string ToString(string Separator)
+        private static char Breaker_ = '"';
+
+        public char Breaker
+        {
+            get => Breaker_;
+            set => Breaker_ = value;
+        }
+
+
+        private static readonly int MaxRowCount = 512;
+        private static readonly int MaxColCount = 512;
+
+
+        public bool IsEmpty
+        {
+            get => CellCount == 0;
+        }
+
+
+        public string ToString(char Separator)
         {
             string Content = "";
 
@@ -413,10 +483,14 @@ namespace CSVNet
             return ToString(Separator);
         }
 
-
-        public bool Equals(CSVDocument Obj)
+        public override bool Equals(object Obj)
         {
-            return ToString() == Obj.ToString();
+            if (Obj.GetType() == typeof(CSVDocument))
+            {
+                return ToString() == Obj.ToString();
+            }
+
+            return false;
         }
 
         public override int GetHashCode()

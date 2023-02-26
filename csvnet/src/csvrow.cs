@@ -10,8 +10,6 @@
 //  GitHub:      https://github.com/reallukee/csvnet
 //  Autore:      Luca Pollicino
 //  Descrizione: CSVRow
-//               Contiene l'Interfaccia ICSVRow
-//               e l'Implementazione CSVRow.
 //               Permette l'Astrazione delle Righe
 //               di una Tabella CSV.
 //  Versione:    2.0.0
@@ -28,12 +26,12 @@ using System.Linq;
 
 namespace CSVNet
 {
-    public partial class CSVRow : ICSVRow
+    public partial class CSVRow
     {
-        private List<ICSVCell> Cells;
+        private List<CSVCell> Cells;
 
 
-        public CSVRow(List<ICSVCell> Cells, int Index)
+        public CSVRow(List<CSVCell> Cells, int Index)
         {
             this.Cells = Cells;
             this.Index = Index;
@@ -42,7 +40,7 @@ namespace CSVNet
                 this.Cells.Add(new CSVCell("", Index, 0));
         }
 
-        public CSVRow(List<ICSVCell> Cells)
+        public CSVRow(List<CSVCell> Cells)
         {
             this.Cells = Cells;
             this.Index = 0;
@@ -199,17 +197,17 @@ namespace CSVNet
             return GetCellValue(Cells.Count() - 1);
         }
 
-        public ICSVCell GetCell(int Index)
+        public CSVCell GetCell(int Index)
         {
             return Cells[Index];
         }
 
-        public ICSVCell GetFirstCell()
+        public CSVCell GetFirstCell()
         {
             return GetCell(0);
         }
 
-        public ICSVCell GetLastCell()
+        public CSVCell GetLastCell()
         {
             return GetCell(Cells.Count() - 1);
         }
@@ -412,11 +410,11 @@ namespace CSVNet
         }
 
 
-        public List<ICSVCell> ToCellsList()
+        public List<CSVCell> ToCellsList()
         {
             try
             {
-                List<ICSVCell> T = new();
+                List<CSVCell> T = new();
 
                 for (int I = 0; I < CellCount; I++)
                 {
@@ -454,8 +452,7 @@ namespace CSVNet
             return ToString(Separator);
         }
 
-
-        public bool Equals(ICSVRow Obj)
+        public bool Equals(CSVRow Obj)
         {
             return ToString() == Obj.ToString();
         }

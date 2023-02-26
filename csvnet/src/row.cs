@@ -28,6 +28,32 @@ namespace CSVNet
 {
     public partial class CSVDocument
     {
+        public void AddRow(CSVRow Row)
+        {
+            try
+            {
+                if (RowCanExist(Row.Index))
+                {
+                    if (Row.CellCount == ColCount)
+                    {
+                        AddRow(Row.ToList<string>());
+                    }
+                    else
+                    {
+                        throw new RowIsInvalidException();
+                    }
+                }
+                else
+                {
+                    throw new RowCantExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public void AddRow(string InitValue)
         {
             try
@@ -42,6 +68,8 @@ namespace CSVNet
                     }
 
                     Content.Add(T);
+
+                    OnRowAdded(new(LastRowIndex, T));
                 }
                 else
                 {
@@ -73,6 +101,8 @@ namespace CSVNet
                     }
 
                     Content.Add(T);
+
+                    OnRowAdded(new(LastRowIndex, InitValues));
                 }
                 else
                 {
@@ -104,6 +134,8 @@ namespace CSVNet
                     }
 
                     Content.Insert(Index, T);
+
+                    OnRowAdded(new(Index, T));
                 }
                 else
                 {
@@ -135,6 +167,8 @@ namespace CSVNet
                     }
 
                     Content.Insert(Index, T);
+
+                    OnRowAdded(new(Index, InitValues));
                 }
                 else
                 {
@@ -183,6 +217,8 @@ namespace CSVNet
                     throw new RowDosentExistException();
                 }
 
+                OnRowRemoved(new(LastRowIndex + 1, T));
+
                 return T;
             }
             catch
@@ -205,6 +241,8 @@ namespace CSVNet
                 {
                     throw new RowDosentExistException();
                 }
+
+                OnRowRemoved(new(Index, T));
 
                 return T;
             }
@@ -242,25 +280,67 @@ namespace CSVNet
         }
 
 
+        public CSVRow GetRowAbstraction(int Index)
+        {
+            try
+            {
+                if (RowExist(Index))
+                {
+                    CSVRow T = new();
+
+                    for (int I = 0; I < ColCount; I++)
+                    {
+                        if (ColExist(I))
+                        {
+                            T.AddCell(Content[Index][I]);
+                        }
+                        else
+                        {
+                            throw new ColDosentExistException();
+                        }
+                    }
+
+                    T.Index = Index;
+
+                    return T;
+                }
+                else
+                {
+                    throw new RowDosentExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<string> GetRow(int Index)
         {
             try
             {
-                List<string> T = new();
-
-                for (int I = 0; I < ColCount; I++)
+                if (RowExist(Index))
                 {
-                    if (ColExist(I))
-                    {
-                        T.Add(Content[Index][I]);
-                    }
-                    else
-                    {
-                        throw new ColDosentExistException();
-                    }
-                }
+                    List<string> T = new();
 
-                return T;
+                    for (int I = 0; I < ColCount; I++)
+                    {
+                        if (ColExist(I))
+                        {
+                            T.Add(Content[Index][I]);
+                        }
+                        else
+                        {
+                            throw new ColDosentExistException();
+                        }
+                    }
+
+                    return T;
+                }
+                else
+                {
+                    throw new RowDosentExistException();
+                }
             }
             catch
             {
@@ -272,21 +352,28 @@ namespace CSVNet
         {
             try
             {
-                List<T> B = new();
-
-                for (int I = 0; I < ColCount; I++)
+                if (RowExist(Index))
                 {
-                    if (ColExist(I))
-                    {
-                        B.Add((T)Convert.ChangeType(Content[Index][I], typeof(T)));
-                    }
-                    else
-                    {
-                        throw new ColDosentExistException();
-                    }
-                }
+                    List<T> B = new();
 
-                return B;
+                    for (int I = 0; I < ColCount; I++)
+                    {
+                        if (ColExist(I))
+                        {
+                            B.Add((T)Convert.ChangeType(Content[Index][I], typeof(T)));
+                        }
+                        else
+                        {
+                            throw new ColDosentExistException();
+                        }
+                    }
+
+                    return B;
+                }
+                else
+                {
+                    throw new RowDosentExistException();
+                }
             }
             catch
             {
@@ -325,6 +412,8 @@ namespace CSVNet
                     {
                         Content[Index][I] = Value;
                     }
+
+                    OnRowChanged(new(Index, GetRow(Index)));
                 }
                 else
                 {
@@ -352,6 +441,8 @@ namespace CSVNet
                     {
                         Content[Index][I] = Values[I];
                     }
+
+                    OnRowChanged(new(Index, Values));
                 }
                 else
                 {
@@ -591,12 +682,12 @@ namespace CSVNet
 
         public bool RowExist(int Row)
         {
-            return Row >= 0 && Row < Content.Count();
+            return Row >= 0 && Row < Content.Count() && Row <= MaxRowCount;
         }
 
         public bool RowCanExist(int Row)
         {
-            return Row >= 0 && Row <= Content.Count();
+            return Row >= 0 && Row <= Content.Count() && Row <= MaxRowCount;
         }
     }
 }

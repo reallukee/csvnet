@@ -250,21 +250,28 @@ namespace CSVNet.Legacy
         {
             try
             {
-                List<string> T = new();
-
-                for (int I = 0; I < RowCount; I++)
+                if (ColExist(Index))
                 {
-                    if (RowExist(I))
-                    {
-                        T.Add(Content[I][Index]);
-                    }
-                    else
-                    {
-                        throw new RowDosentExistException();
-                    }
-                }
+                    List<string> T = new();
 
-                return T;
+                    for (int I = 0; I < RowCount; I++)
+                    {
+                        if (RowExist(I))
+                        {
+                            T.Add(Content[I][Index]);
+                        }
+                        else
+                        {
+                            throw new RowDosentExistException();
+                        }
+                    }
+
+                    return T;
+                }
+                else
+                {
+                    throw new ColDosentExistException();
+                }
             }
             catch
             {
@@ -276,21 +283,28 @@ namespace CSVNet.Legacy
         {
             try
             {
-                List<T> B = new();
-
-                for (int I = 0; I < RowCount; I++)
+                if (ColExist(Index))
                 {
-                    if (RowExist(I))
-                    {
-                        B.Add((T)Convert.ChangeType(Content[I][Index], typeof(T)));
-                    }
-                    else
-                    {
-                        throw new RowDosentExistException();
-                    }
-                }
+                    List<T> B = new();
 
-                return B;
+                    for (int I = 0; I < RowCount; I++)
+                    {
+                        if (RowExist(I))
+                        {
+                            B.Add((T)Convert.ChangeType(Content[I][Index], typeof(T)));
+                        }
+                        else
+                        {
+                            throw new RowDosentExistException();
+                        }
+                    }
+
+                    return B;
+                }
+                else
+                {
+                    throw new ColDosentExistException();
+                }
             }
             catch
             {

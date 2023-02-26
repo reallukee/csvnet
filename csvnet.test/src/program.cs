@@ -42,25 +42,5 @@ namespace CSVNet.Test
                 Console.WriteLine(Str);
             }
         }
-
-
-        /*
-        static void ShowRow(ICSVRow Row)
-        {
-            foreach (string Cell in Row.ToList<string>())
-            {
-                Console.WriteLine(Cell);
-            }
-        }
-
-
-        static void ShowCol(ICSVCol Col)
-        {
-            foreach (string Cell in Col.ToList<string>())
-            {
-                Console.WriteLine(Cell);
-            }
-        }
-        */
     }
 }

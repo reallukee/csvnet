@@ -10,8 +10,6 @@
 //  GitHub:      https://github.com/reallukee/csvnet
 //  Autore:      Luca Pollicino
 //  Descrizione: CSVCell
-//               Contiene l'Interfaccia ICSVCell
-//               e l'Implementazione CSVCell.
 //               Permette l'Astrazione delle Celle
 //               di una Tabella CSV.
 //  Versione:    2.0.0
@@ -28,7 +26,7 @@ using System.Linq;
 
 namespace CSVNet
 {
-    public partial class CSVCell : ICSVCell
+    public partial class CSVCell
     {
         private string Value;
 
@@ -117,8 +115,7 @@ namespace CSVNet
             return Value;
         }
 
-
-        public bool Equals(ICSVCell Obj)
+        public bool Equals(CSVCell Obj)
         {
             return ToString() == Obj.ToString();
         }

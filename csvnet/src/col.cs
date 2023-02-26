@@ -28,6 +28,32 @@ namespace CSVNet
 {
     public partial class CSVDocument
     {
+        public void AddCol(CSVCol Col)
+        {
+            try
+            {
+                if (ColCanExist(Col.Index))
+                {
+                    if (Col.CellCount == RowCount)
+                    {
+                        AddCol(Col.ToList<string>());
+                    }
+                    else
+                    {
+                        throw new ColIsInvalidException();
+                    }
+                }
+                else
+                {
+                    throw new ColCantExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public void AddCol(string InitValue)
         {
             try
@@ -38,6 +64,8 @@ namespace CSVNet
                     {
                         Content[I].Add(InitValue);
                     }
+
+                    OnColAdded(new(LastColIndex, GetCol(LastColIndex)));
                 }
                 else
                 {
@@ -65,6 +93,8 @@ namespace CSVNet
                     {
                         Content[I].Add(InitValues[I]);
                     }
+
+                    OnColAdded(new(LastColIndex, InitValues));
                 }
                 else
                 {
@@ -92,6 +122,8 @@ namespace CSVNet
                     {
                         Content[I].Insert(Index, InitValue);
                     }
+
+                    OnColAdded(new(Index, GetCol(Index)));
                 }
                 else
                 {
@@ -119,6 +151,8 @@ namespace CSVNet
                     {
                         Content[I].Insert(Index, InitValues[I]);
                     }
+
+                    OnColAdded(new(Index, InitValues));
                 }
                 else
                 {
@@ -170,6 +204,8 @@ namespace CSVNet
                     throw new ColDosentExistException();
                 }
 
+                OnColRemoved(new(LastColIndex + 1, T));
+
                 return T;
             }
             catch
@@ -195,6 +231,8 @@ namespace CSVNet
                 {
                     throw new ColDosentExistException();
                 }
+
+                OnColRemoved(new(Index, T));
 
                 return T;
             }
@@ -232,25 +270,67 @@ namespace CSVNet
         }
 
 
+        public CSVCol GetColAbstraction(int Index)
+        {
+            try
+            {
+                if (ColExist(Index))
+                {
+                    CSVCol T = new();
+
+                    for (int I = 0; I < RowCount; I++)
+                    {
+                        if (RowExist(I))
+                        {
+                            T.AddCell(Content[I][Index]);
+                        }
+                        else
+                        {
+                            throw new RowDosentExistException();
+                        }
+                    }
+
+                    T.Index = Index;
+
+                    return T;
+                }
+                else
+                {
+                    throw new ColDosentExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<string> GetCol(int Index)
         {
             try
             {
-                List<string> T = new();
-
-                for (int I = 0; I < RowCount; I++)
+                if (ColExist(Index))
                 {
-                    if (RowExist(I))
-                    {
-                        T.Add(Content[I][Index]);
-                    }
-                    else
-                    {
-                        throw new RowDosentExistException();
-                    }
-                }
+                    List<string> T = new();
 
-                return T;
+                    for (int I = 0; I < RowCount; I++)
+                    {
+                        if (RowExist(I))
+                        {
+                            T.Add(Content[I][Index]);
+                        }
+                        else
+                        {
+                            throw new RowDosentExistException();
+                        }
+                    }
+
+                    return T;
+                }
+                else
+                {
+                    throw new ColDosentExistException();
+                }
             }
             catch
             {
@@ -262,21 +342,28 @@ namespace CSVNet
         {
             try
             {
-                List<T> B = new();
-
-                for (int I = 0; I < RowCount; I++)
+                if (ColExist(Index))
                 {
-                    if (RowExist(I))
-                    {
-                        B.Add((T)Convert.ChangeType(Content[I][Index], typeof(T)));
-                    }
-                    else
-                    {
-                        throw new RowDosentExistException();
-                    }
-                }
+                    List<T> B = new();
 
-                return B;
+                    for (int I = 0; I < RowCount; I++)
+                    {
+                        if (RowExist(I))
+                        {
+                            B.Add((T)Convert.ChangeType(Content[I][Index], typeof(T)));
+                        }
+                        else
+                        {
+                            throw new RowDosentExistException();
+                        }
+                    }
+
+                    return B;
+                }
+                else
+                {
+                    throw new ColDosentExistException();
+                }
             }
             catch
             {
@@ -315,6 +402,8 @@ namespace CSVNet
                     {
                         Content[I][Index] = Value;
                     }
+
+                    OnColChanged(new(Index, GetCol(Index)));
                 }
                 else
                 {
@@ -342,6 +431,8 @@ namespace CSVNet
                     {
                         Content[I][Index] = Values[I];
                     }
+
+                    OnColChanged(new(Index, Values));
                 }
                 else
                 {
@@ -581,12 +672,12 @@ namespace CSVNet
 
         public bool ColExist(int Col)
         {
-            return Col >= 0 && Col < Content[0].Count();
+            return Col >= 0 && Col < Content[0].Count() && Col <= MaxColCount;
         }
 
         public bool ColCanExist(int Col)
         {
-            return Col >= 0 && Col <= Content[0].Count();
+            return Col >= 0 && Col <= Content[0].Count() && Col <= MaxColCount;
         }
     }
 }

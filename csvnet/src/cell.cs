@@ -28,6 +28,25 @@ namespace CSVNet
 {
     public partial class CSVDocument
     {
+        public CSVCell GetCellAbstraction(int Row, int Col)
+        {
+            try
+            {
+                if (CellExist(Row, Col))
+                {
+                    return new(Content[Row][Col], Row, Col);
+                }
+                else
+                {
+                    throw new CellDosentExistException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public string GetCell(int Row, int Col)
         {
             try
@@ -79,6 +98,8 @@ namespace CSVNet
                 {
                     throw new CellDosentExistException();
                 }
+
+                OnCellChanged(new(Row, Col, Value));
             }
             catch
             {
@@ -111,9 +132,9 @@ namespace CSVNet
         }
 
 
-        public int GetCellCount()
+        public int CellCount
         {
-            return RowCount * ColCount;
+            get => RowCount * ColCount;
         }
 
 

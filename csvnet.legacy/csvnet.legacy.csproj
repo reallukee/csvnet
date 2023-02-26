@@ -13,7 +13,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageId>CSVNet.Legacy</PackageId>
     <Title>CSVNet Legacy</Title>
-    <Version>2.0.0</Version>
+    <Version>1.0.0</Version>
     <Authors>Luca Pollicino</Authors>
     <Company>Luca Pollicino</Company>
     <Product>CSVNet Legacy</Product>
@@ -26,8 +26,8 @@
     <PackageTags>CSVNet Legacy</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageOutputPath>..\bin\</PackageOutputPath>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
